@@ -1,13 +1,23 @@
 var startBtn = document.querySelector('.start-button')
 var wordBlanksEl = document.querySelector('.word-blanks')
+var scoreEl = document.querySelector('.score')
 
 var validChars = "abcdefghijklmnopqrstuvwxyz"
 var words = ["javascript", "variable", "function", "object", "python", "localstorage", "timeout", "interval", "vscode"]
 var word
 var guessedCharacters = []
+var score = 0
 
-// score variable
 // timeLeft variable
+
+function checkWord() {
+  var wordFromDOM = wordBlanksEl.textContent.split(' ').join('')
+  if (word === wordFromDOM) {
+    score++
+    scoreEl.textContent = score
+    startRound()
+  }
+}
 
 function handleKeydown(event) {
   if (validChars.includes(event.key)) {
@@ -31,9 +41,11 @@ function renderCharacters() {
     }
   }
   wordBlanksEl.textContent = str.trim()
+  checkWord()
 }
 
 function startRound() {
+  guessedCharacters = []
   // get random word from words array
   var randomIndex = Math.floor(Math.random() * words.length)
   word = words[randomIndex]
